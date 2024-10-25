@@ -1,11 +1,9 @@
 #  imports a serem usados
-import re
 import nltk
+from nltk.corpus import movie_reviews
 
-class bot:
-    texto = 'Um exemplo bem simples, mas que vai me ajudar eventualmente'
-    par = nltk.word_tokenize(texto)
-    print(par)
+# fill up bot with data
+nltk.data.path.append("C:\\Users\\alves\\OneDrive\\Documentos\\datas")
     
 class usuario:
     user_name = input('Digite como você deve ser chamado(a): ')
