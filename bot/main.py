@@ -4,9 +4,9 @@ from nltk.corpus import movie_reviews
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
-    
+from bot import dados
+
 class Bot:
     userChat = input()
-    
-    def processamentos_mensagens(userChat):
-        print()
+    envioMensagens = dados()
+    envioMensagens.mensagens_possiveis(userChat)
