@@ -4,9 +4,8 @@ from nltk.corpus import movie_reviews
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
-from bot import dados
+from dados import mensagens_possiveis
 
-class Bot:
-    userChat = input()
-    envioMensagens = dados()
-    envioMensagens.mensagens_possiveis(userChat)
+userChat = input("envie uma mensagem: ")
+envioMensagens = mensagens_possiveis(userChat)
+print(envioMensagens)
