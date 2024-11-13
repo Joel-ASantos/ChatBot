@@ -7,7 +7,7 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 
 # Configurações Iniciais
-dados_pasta = "dados"
+dados_pasta = 'dados'
 arquivosCSV = [arquivo for arquivo in os.listdir(dados_pasta) if arquivo.endswith('.csv')]
 stopwords = set(stopwords.words("Portuguese"))
 stemmer = PorterStemmer()    
@@ -16,12 +16,33 @@ stemmer = PorterStemmer()
 df = pd.DataFrame()
 for arquivo in arquivosCSV:
     caminho = os.path.join(dados_pasta,arquivo)
-    df = df.append(pd.read_csv(caminho), ignore_index=True)
+    df = pd.concat([df, pd.read_csv(caminho, encoding="latin-1",delimiter=';')], ignore_index=True)
 
 # Reposta
-dicio = {}
+Bases_Conversa = {
+    "inicio":["Oi!","Olá!"],
+    "fim":["Tchau!"]
+}
 
-# Função para as mensagens
-def mensagens(mensagem):
+# Função para identificar as palavras!
+def identificarIntencao(tokens):
+    intencao = {
+        "saudação":["Eae","Opa","Oi","Olá"],
+        "despedida":["Tchau","Flw"]
+    }
+    for intencao, palavra_chave in intencao.items():
+        if any(palavra in tokens for palavra in palavra_chave):
+            return Bases_Conversa.get(intencao, "Não entendi")
+
+# Função para enviar as mensagens
+def Enviomensagens(mensagem):
     tokens = word_tokenize(mensagem.lower())
     tokens = [stemmer.stem(word) for word in tokens if word not in stopwords]
+    resposta = identificarIntencao(tokens)
+    print(resposta)
+
+while True:
+    mensagem = input("Você: ")
+    Enviomensagens(mensagem)
+    if any(word in mensagem.lower() for word in ["tchau", "flw"]):
+        break
