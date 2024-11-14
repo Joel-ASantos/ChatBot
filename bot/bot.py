@@ -16,7 +16,7 @@ stemmer = PorterStemmer()
 df = pd.DataFrame()
 for arquivo in arquivosCSV:
     caminho = os.path.join(dados_pasta,arquivo)
-    df = pd.concat([df, pd.read_csv(caminho, encoding="latin-1",delimiter=';')], ignore_index=True)
+    df = pd.concat([df, pd.read_csv(caminho, encoding="latin-1",delimiter=';',on_bad_lines='skip')], ignore_index=True)
 
 # Reposta
 Bases_Conversa = {
@@ -39,10 +39,10 @@ def Enviomensagens(mensagem):
     tokens = word_tokenize(mensagem.lower())
     tokens = [stemmer.stem(word) for word in tokens if word not in stopwords]
     resposta = identificarIntencao(tokens)
-    print(resposta)
+    return print(resposta)
 
 while True:
-    mensagem = input("Você: ")
+    mensagem = input("Input: ")
     Enviomensagens(mensagem)
     if any(word in mensagem.lower() for word in ["tchau", "flw"]):
         break
