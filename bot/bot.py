@@ -1,6 +1,5 @@
 # imports
 import os
-import nltk
 import pandas as pd
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
@@ -36,8 +35,8 @@ def identificarIntencao(tokens):
         if palavra_chave == "tchau" or "flw":
             return Bases_Conversa.get(intencao, "Foi um prazer conversar com você :)")
 
-# Função para enviar as mensagens
-def Enviomensagens(mensagem):
+# Função para tokenização e para impressão da resposta do bot
+def Tokenizacao_mensagem(mensagem):
     tokens = word_tokenize(mensagem.lower())
     tokens = [stemmer.stem(word) for word in tokens if word not in stopwords]
     resposta = identificarIntencao(tokens)
@@ -45,6 +44,6 @@ def Enviomensagens(mensagem):
 
 while True:
     mensagem = input("Input: ")
-    Enviomensagens(mensagem)
+    Tokenizacao_mensagem(mensagem)
     if any(word in mensagem.lower() for word in ["tchau", "flw"]):
         break
