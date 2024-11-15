@@ -27,12 +27,14 @@ Bases_Conversa = {
 # Função para identificar as palavras!
 def identificarIntencao(tokens):
     intencao = {
-        "saudação":["Eae","Opa","Oi","Olá"],
-        "despedida":["Tchau","Flw"]
+        "saudação":["eae","opa","oi","olá"],
+        "despedida":["tchau","flw"]
     }
     for intencao, palavra_chave in intencao.items():
         if any(palavra in tokens for palavra in palavra_chave):
-            return Bases_Conversa.get(intencao, "Não entendi")
+            return Bases_Conversa.get(intencao, "salve")
+        if palavra_chave == "tchau" or "flw":
+            return Bases_Conversa.get(intencao, "Foi um prazer conversar com você :)")
 
 # Função para enviar as mensagens
 def Enviomensagens(mensagem):
