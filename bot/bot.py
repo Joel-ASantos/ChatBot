@@ -9,7 +9,7 @@ dados_pasta = 'dados'
 arquivosCSV = [arquivo for arquivo in os.listdir(dados_pasta) if arquivo.endswith('.csv')]
 stopwords = set(stopwords.words("portuguese"))
 
-# Função para buscar informação que estão no dados
+# Função para buscar informações nos dados
 def buscarInformacoes(mensagem):
     resultado = []
     mensagem_lower = mensagem.lower()
@@ -40,13 +40,21 @@ def identificarIntencao(tokens):
         "saudação": ["eae", "opa", "oi", "olá"],
         "despedida": ["tchau", "flw", "até mais", "até logo"],
         "elogio": ["parabéns", "muito bom", "ótimo"],
-        "buscar":["info","buscar"]
+        "buscar": ["info", "informação", "dados"],
+        "gratidão": ["obrigado", "vlw"],
+        "ajuda": ["comandos", "ajuda"]
     }
 
     respostas = {
         "saudação": "Olá, como posso ajudar?",
         "despedida": "Foi um prazer conversar com você.",
-        "elogio": "Muito obrigado! :)"
+        "elogio": "Muito obrigado! :)",
+        "gratidão": "De nada :)",
+        "ajuda": (
+            "Lista de Comandos:\n"
+            "Ao digitar 'info','informação'ou 'dados', será retornado algumas informações da pasta dados\n"
+            "Para finalizar a conversa com o bot, digitar 'flw', 'tchau', 'até mais' ou 'até logo'."
+        )
     }
 
     tokens = [token.lower().strip(string.punctuation) for token in tokens]
@@ -67,5 +75,5 @@ def Tokenizacao_mensagem(mensagem):
 while True:
     mensagem = input("Input: ")
     Tokenizacao_mensagem(mensagem)
-    if any(word in mensagem.lower() for word in ["tchau", "flw"]):
+    if any(word in mensagem.lower() for word in ["tchau", "flw","até mais", "até logo"]):
         break
