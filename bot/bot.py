@@ -11,28 +11,23 @@ stopwords = set(stopwords.words("portuguese"))
 
 # Função para buscar informações nos dados
 def buscarInformacoes(mensagem):
-    resultado = []
     mensagem_lower = mensagem.lower()
-     
-    for arquivo in arquivosCSV:
-        caminho = os.path.join(dados_pasta, arquivo)
-        try:
-            df = pd.read_csv(caminho, encoding="latin-1", delimiter=';', on_bad_lines='skip')
-        except Exception as e:
-            print(f"Erro ao ler o arquivo {arquivo}: {e}")
-            continue
+    encontrou_arquivo = False
 
-        for _, row in df.iterrows():
-            for coluna, valor in row.items():
-                if not pd.isna(valor) and mensagem_lower in str(valor).lower():
-                    resultado.append(row.to_dict())
-                    break
+    for arquivo in arquivosCSV:
+        caminho = os.path.join(dados_pasta,arquivo)
+        
+        try:
+            df = pd.read_csv(caminho,encoding="latin-1",delimiter=";",on_bad_lines="skip")
+            print(df.tail(5))
+            encontrou_arquivo = True
+        except Exception as e:
+            print(f'Erro ao ler o arquivo: {arquivo}: {e}')
     
-    if resultado:
-        resposta = "\n".join([str(res) for res in resultado[:5]])
-        return f"Encontrei essas informações:\n{resposta}"
+    if not encontrou_arquivo:
+        return "Não encontrei nenhuma inforção salva"
     else:
-        return "Não encontrei nenhuma informação relacionada"
+        return "Visualização Completa"
 
 # Função para identificar as intenções
 def identificarIntencao(tokens):
@@ -69,7 +64,7 @@ def identificarIntencao(tokens):
 def Tokenizacao_mensagem(mensagem):
     tokens = word_tokenize(mensagem.lower())
     resposta = identificarIntencao(tokens)
-    return print(f"Chatbot: {resposta}")
+    return print(f"Chatbot: {resposta}\n")
 
 # Loop de interação com o chatbot
 while True:
